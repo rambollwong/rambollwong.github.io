@@ -17,7 +17,7 @@
   <meta name="keywords" content="Ramboll,RainbowProject">
 
 
-<title>RainbowLog Introduction | Ramboll&#39;s blog.</title>
+<title>Category: en | Ramboll&#39;s blog.</title>
 
 
 
@@ -276,7 +276,7 @@
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2025-07-29</time>
+            <time>2025-07-31</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
@@ -289,19 +289,13 @@
             <span>1.2k words</span>
           </span>
           
-            <span class="text-gray-400">·</span>
-            <span class="flex items-center gap-1">
-              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
-              <a class="article-category-link" href="/categories/en/">en</a>
-            </span>
-          
         </section>
       </div>
     </div>
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <p>[<a href="https://ramboll.wang/2025/07/29/zh_cn/rainbow-log-introduction-zh-cn/">中文版本</a>]</p>
+    <p>[<a href="https://ramboll.wang/2025/07/31/zh_cn/rainbow-log-introduction-zh-cn/">中文版本</a>]</p>
 <p><img src="/../img/rainbowlog.png"></p>
 <p><code>RainbowLog</code> is an easy-to-use, highly configurable, structured logging library (For Golang).<br>It is designed to provide fast and reliable logging services for other projects of <code>Rainbow Project</code><br>and is one of the foundations of <code>Rainbow Project</code>.</p>
 <p>When designing <code>RainbowLog</code>, we referred to some of the design ideas of <a target="_blank" rel="noopener" href="https://github.com/rs/zerolog"><code>ZeroLog</code></a>,<br>and combined it with some of the features needed in my work to make <code>RainbowLog</code> faster , more efficient, Smaller,<br>more beautiful and easier to use.</p>
@@ -347,22 +341,22 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/rambollwong/rainbowlog&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	logger := rainbowlog.New(</span><br><span class="line">		rainbowlog.WithDefault(),</span><br><span class="line">		rainbowlog.AppendsEncoderWriters(rainbowlog.JsonEnc, os.Stderr),</span><br><span class="line">		rainbowlog.WithTimeFormat(rainbowlog.TimeFormatUnix),</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	logger.Info().Msg(<span class="string">&quot;Hello world!&quot;</span>).Done()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output:&#123;&quot;_TIME_&quot;:1708346689,&quot;_LEVEL_&quot;:&quot;INFO&quot;,&quot;_CALLER_&quot;:&quot;main.go:16&quot;,&quot;message&quot;:&quot;Hello world!&quot;&#125;</span></span><br></pre></td></tr></table></figure>
 <h3 id="Hooks"><a href="#Hooks" class="headerlink" title="Hooks"></a>Hooks</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/rambollwong/rainbowlog&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/rambollwong/rainbowlog/level&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> hook rainbowlog.HookFunc = <span class="function"><span class="keyword">func</span><span class="params">(r rainbowlog.Record, level level.Level, message <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;hook: %s, %s\n&quot;</span>, level.String(), message)</span><br><span class="line">	&#125;</span><br><span class="line">	logger := rainbowlog.New(</span><br><span class="line">		rainbowlog.WithDefault(),</span><br><span class="line">		rainbowlog.AppendsEncoderWriters(rainbowlog.JsonEnc, os.Stderr),</span><br><span class="line">		rainbowlog.WithCallerMarshalFunc(<span class="literal">nil</span>),</span><br><span class="line">		rainbowlog.AppendsHooks(hook),</span><br><span class="line">		rainbowlog.WithLevel(level.Info),</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	logger.Debug().Msg(<span class="string">&quot;Hello world!&quot;</span>).Done()</span><br><span class="line">	logger.Info().Msg(<span class="string">&quot;Hello world!&quot;</span>).Done()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output: </span></span><br><span class="line"><span class="comment">// hook: info, Hello world!</span></span><br><span class="line"><span class="comment">// &#123;&quot;_TIME_&quot;:&quot;2024-02-21 11:42:17.592&quot;,&quot;_LEVEL_&quot;:&quot;INFO&quot;,&quot;message&quot;:&quot;Hello world!&quot;&#125;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Github-repository"><a href="#Github-repository" class="headerlink" title="Github repository"></a>Github repository</h2><h3 id="https-github-com-rambollwong-rainbowlog"><a href="#https-github-com-rambollwong-rainbowlog" class="headerlink" title="https://github.com/rambollwong/rainbowlog"></a><a target="_blank" rel="noopener" href="https://github.com/rambollwong/rainbowlog">https://github.com/rambollwong/rainbowlog</a></h3><h3 id="If-you-think-what-I-did-is-pretty-good-I-hope-you-can-give-it-a-⭐-Your-support-is-my-biggest-motivation-to-move-forward"><a href="#If-you-think-what-I-did-is-pretty-good-I-hope-you-can-give-it-a-⭐-Your-support-is-my-biggest-motivation-to-move-forward" class="headerlink" title="If you think what I did is pretty good, I hope you can give it a ⭐. Your support is my biggest motivation to move forward."></a>If you think what I did is pretty good, I hope you can give it a ⭐. Your support is my biggest motivation to move forward.</h3>
+<h2 id="Github-repository"><a href="#Github-repository" class="headerlink" title="Github repository"></a>Github repository</h2><h3 id="https-github-com-rambollwong-rainbowlog"><a href="#https-github-com-rambollwong-rainbowlog" class="headerlink" title="https://github.com/rambollwong/rainbowlog"></a><a target="_blank" rel="noopener" href="https://github.com/rambollwong/rainbowlog">https://github.com/rambollwong/rainbowlog</a></h3><h3 id="If-you-think-what-I-did-is-pretty-good-I-hope-you-can-give-it-a-⭐-Your-support-is-my-biggest-motivation-to-move-forward"><a href="#If-you-think-what-I-did-is-pretty-good-I-hope-you-can-give-it-a-⭐-Your-support-is-my-biggest-motivation-to-move-forward" class="headerlink" title="If you think what I did is pretty good, I hope you can give it a ⭐. Your support is my biggest motivation to move forward."></a>If you think what I did is pretty good, I hope you can give it a ⭐. Your support is my biggest motivation to move forward.</h3><h4 id="This-article-was-written-in-February-2024"><a href="#This-article-was-written-in-February-2024" class="headerlink" title="This article was written in February 2024."></a>This article was written in February 2024.</h4>
   </article>
   <!-- tag -->
   <div class="mt-12 pt-6 border-t border-gray-200">
     
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/RainbowProject/">RainbowProject</a>
+          <a href="/"></a>
         </span>
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/RainbowLog/">RainbowLog</a>
+          <a href="/"></a>
         </span>
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/Logger/">Logger</a>
+          <a href="/"></a>
         </span>
       
     
@@ -371,18 +365,8 @@
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2025/07/29/about-me/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          About me
-        </a>
-      
     </div>
     <div>
-      
-        <a href="/2025/07/29/zh_cn/about-me-zh-cn/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          关于我
-          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
-        </a>
       
     </div>
   </div>
